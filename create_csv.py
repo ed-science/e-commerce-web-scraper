@@ -10,4 +10,4 @@ name = str(args.name)
 
 df = pd.DataFrame()
 
-df.to_csv( name + '.csv', index = False)
+df.to_csv(f'{name}.csv', index = False)

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-from urllib.request import urlopen 
+from urllib.request import urlopen
 import requests
 
 headers_std = {
@@ -16,17 +16,9 @@ soup = BeautifulSoup(html,'lxml')
 
 #scraping using asin_number of the product
 asin_number_list = soup.find_all("div", {"class":"s-result-item"})
-# print(asin_number_list)
-# print(asin_number_list[0])
-
-# print(asin_number_list[0].get('data-asin'))
-
-asins = []
-
-# get data-asin for all products and save as a csv
-for i in range(len(asin_number_list)):
-	asins.append(asin_number_list[i].get('data-asin'))
-
+asins = [
+	asin_number_list[i].get('data-asin') for i in range(len(asin_number_list))
+]
 print(len(asins))
 print(asins)
 

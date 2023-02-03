@@ -10,16 +10,8 @@ parser.add_argument('--saveto', help='Target directory to save the Images (defau
 parser.add_argument('--pages', help='No. of pages (default: 40', action='store', dest='last_pagination')
 args = parser.parse_args()
 
-if(args.dirName):
-    dirName = str(args.dirName) + '/'
-else :
-    dirName = 'images/'
-
-if(args.last_pagination):
-    last_pagination = int(args.last_pagination) + 1
-else :
-    last_pagination = 40
-
+dirName = f'{str(args.dirName)}/' if args.dirName else 'images/'
+last_pagination = int(args.last_pagination) + 1 if args.last_pagination else 40
 if not os.path.exists(dirName):
     os.mkdir(dirName)
 
@@ -32,35 +24,28 @@ link = input('Search Query URL: ')
 req = requests.get(link)
 soup = BeautifulSoup(req.text, 'lxml')
 
-urls = []
-
 item_category = input('Enter the image category')
 
-for x in range (1, last_pagination):
-    urls.append(link + '&page=' + str(x))
-
+urls = [link + '&page=' + str(x) for x in range (1, last_pagination)]
 img_urls = set()
 
-k = 1 
-pag = 1
-for x in urls:
-    print('Pagination : ' + str(pag))
+k = 1
+for pag, x in enumerate(urls, start=1):
+    print(f'Pagination : {str(pag)}')
     req = requests.get(x,headers=headers_std).text
     soup = BeautifulSoup(req, 'lxml')
     imgs = soup.find_all('img',{'src': True})
-   
+
     for i in imgs:
-        if str(i).find('src') != -1:
+        if 'src' in str(i):
             url = 'https:' + i['src']
             img_urls.add(url)
             # name_image_folder = dirName + str(k) + '.jpg'
             # image = requests.get(url).content
-            
+
             # with open(name_image_folder, 'wb') as handler:
             #     handler.write(image)
         k += 1
-    pag += 1
-
 urls =  list(img_urls)
 categories = [item_category] * len(urls)
 
