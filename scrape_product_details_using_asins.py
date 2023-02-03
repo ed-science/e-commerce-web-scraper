@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-from urllib.request import urlopen 
+from urllib.request import urlopen
 import requests
 
 headers_std = {
@@ -33,7 +33,7 @@ product_images = []
 product_prices = []
 
 for asin in asin_list:
-	url = "https://www.amazon.in/dp/" + str(asin)
+	url = f"https://www.amazon.in/dp/{str(asin)}"
 	html = requests.get(url,headers=headers_std).text
 	soup = BeautifulSoup(html,'lxml')
 

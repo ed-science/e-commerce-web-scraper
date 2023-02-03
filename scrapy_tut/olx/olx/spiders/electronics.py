@@ -15,4 +15,4 @@ class ElectronicsSpider(CrawlSpider):
              follow=True),)
 
     def parse_item(self, response):
-        print('Processing..' + response.url)
+        print(f'Processing..{response.url}')
